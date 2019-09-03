@@ -1,0 +1,83 @@
+[Version]
+Signature="$WINDOWS NT$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+provider=%CompanyName%
+CatalogFile=ezusb.cat
+DriverVer=04/11/2006, 1.30.0000
+
+[SourceDisksNames]
+1=%EZUSB_Install%,,,
+
+[SourceDisksFiles]
+ezusb.sys = 1
+
+[DestinationDirs]
+EZUSB.Files.Ext = 10,System32\Drivers
+
+[Manufacturer]
+%CompanyName%= Device,NT,NTx86,NTamd64
+
+[Device.NT]
+%CYPEZUSB% = EZUSB, USB\VID_0547&PID_1002
+%CYPEZUSB% = EZUSB, USB\VID_6022&PID_0001
+
+[Device.NTx86]
+%CYPEZUSB% = EZUSB, USB\VID_0547&PID_1002
+%CYPEZUSB% = EZUSB, USB\VID_6022&PID_0001
+
+[Device.NTamd64]
+%CYPEZUSB% = EZUSB, USB\VID_0547&PID_1002
+%CYPEZUSB% = EZUSB, USB\VID_6022&PID_0001
+
+[EZUSB.NT]
+CopyFiles = EZUSB.Files.Ext
+AddReg=EZUSB.AddReg
+
+[EZUSB.NT.Services]
+Addservice = sys_ezusb, 2, EZUSB.AddService
+
+[EZUSB.NTx86]
+CopyFiles = EZUSB.Files.Ext
+AddReg=EZUSB.AddReg
+
+[EZUSB.NTx86.Services]
+Addservice = sys_ezusb, 2, EZUSB.AddService
+
+[EZUSB.NTamd64]
+CopyFiles = EZUSB.Files.Ext
+AddReg=EZUSB.AddReg
+
+[EZUSB.NTamd64.Services]
+Addservice = sys_ezusb, 2, EZUSB.AddService
+
+[EZUSB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezusb.sys
+HKR,,DriverBase,,ezusb.sys
+HKR,"Parameters","MaximumTransferSize",0x10001,4096
+HKR,"Parameters","DebugLevel",0x10001,2
+HKR,,FriendlyName,,%CYPEZUSB.SvcDesc%
+
+[EZUSB.AddService]
+DisplayName    = %CYPEZUSB.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\ezusb.sys
+AddReg         = EZUSB.AddReg
+LoadOrderGroup = Base
+
+[EZUSB.Files.Ext]
+EZUSB.sys
+
+;---------------------------------------------------------------;
+
+[Strings]
+CompanyName = "Cypress Semiconductor"
+EZUSB_Install = "Cypress ezusb Driver Installation Disk"
+
+CYPEZUSB = "Xeltek 3000u EEPROM Programmer"
+CYPEZUSB.SvcDesc="Cypress General Purpose USB Driver (ezusb.sys)"
+
+
